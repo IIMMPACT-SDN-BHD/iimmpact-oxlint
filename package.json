@@ -38,7 +38,7 @@
     "./package.json": "./package.json"
   },
   "bin": {
-    "iimmpact-oxlint": "./dist/cli.js"
+    "iimmpact-oxlint": "dist/cli.js"
   },
   "scripts": {
     "build": "bun run manifest:check && rm -rf dist && bun build src/index.ts src/cli.ts src/plugins/anti-slop.ts src/plugins/effect.ts --outdir dist --target node --format esm --external @oxlint/plugins && bunx tsc -p tsconfig.build.json && cp src/plugin-types/*.d.ts dist/plugins/ && chmod +x dist/cli.js",
@@ -68,7 +68,7 @@
     "typescript": "7.0.2"
   },
   "engines": {
-    "node": "^20.19.0 || >=22.18.0"
+    "node": ">=22.18.0"
   },
   "packageManager": "bun@1.3.14"
 }

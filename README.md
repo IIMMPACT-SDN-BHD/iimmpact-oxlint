@@ -10,7 +10,7 @@ Pin the package so the rules and bundled Oxlint executable move together:
 bun add --dev @iimmpact/oxlint@0.1.0
 ```
 
-`oxlint` and `@oxlint/plugins` are both pinned to `1.78.0`. Published packages contain compiled JavaScript plugins; consumers do not execute TypeScript plugin source.
+Node.js 22.18 or newer is required. `oxlint` and `@oxlint/plugins` are both pinned to `1.78.0`. Published packages contain compiled JavaScript plugins; consumers do not execute TypeScript plugin source.
 
 ## Profiles
 
