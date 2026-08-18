@@ -103,10 +103,7 @@ try {
 
     const currentVendor = resolve(root, "vendor", name);
     const stagedVendor = resolve(stagedRoot, "vendor", name);
-    await cp(currentVendor, stagedVendor, {
-      recursive: true,
-      preserveTimestamps: true,
-    });
+    await mkdir(stagedVendor, { recursive: true });
     if (
       !(await same(
         resolve(clone, "LICENSE"),
@@ -124,14 +121,11 @@ try {
         drift = true;
         console.log(`${name}: ${path} differs at ${sha}`);
       }
-      if (!checkOnly) {
-        const destination = resolve(stagedVendor, path);
-        await rm(destination, { recursive: true, force: true });
-        await cp(source, destination, {
+      if (!checkOnly)
+        await cp(source, resolve(stagedVendor, path), {
           recursive: true,
           preserveTimestamps: true,
         });
-      }
     }
     if (!checkOnly) {
       upstream.sha = sha;

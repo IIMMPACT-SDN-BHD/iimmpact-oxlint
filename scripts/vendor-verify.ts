@@ -1,5 +1,5 @@
 #!/usr/bin/env bun
-import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { mkdtemp, readFile, readdir, rm } from "node:fs/promises";
 import { basename, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -107,6 +107,16 @@ try {
     if (legal.length !== 1 || legal[0] !== "LICENSE")
       throw new Error(
         `${name} has unexpected legal files: ${legal.join(", ")}`,
+      );
+    const expectedTopLevel = [
+      ...new Set(policy.paths.map((path) => path.split("/")[0])),
+    ].sort();
+    const actualTopLevel = (
+      await readdir(resolve(root, "vendor", name))
+    ).sort();
+    if (JSON.stringify(actualTopLevel) !== JSON.stringify(expectedTopLevel))
+      throw new Error(
+        `${name} vendor root differs from allowlist: ${actualTopLevel.join(", ")}`,
       );
     for (const path of policy.paths) {
       if (!equal(resolve(clone, path), resolve(root, "vendor", name, path)))
