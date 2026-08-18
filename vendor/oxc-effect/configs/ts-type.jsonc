@@ -1,0 +1,16 @@
+{
+  "jsPlugins": [
+    {
+      "name": "effect",
+      "specifier": "@shekohex/oxc-effect"
+    }
+  ],
+  "rules": {
+    "effect/no-effect-type-alias": "error",
+    "effect/no-option-nullish-rewrap": "error",
+    "effect/no-manual-data-guard": "error",
+    "effect/no-model-overlay-cast": "error",
+    "effect/no-option-boolean-normalization": "error",
+    "effect/no-unknown-boolean-coercion-helper": "error"
+  }
+}

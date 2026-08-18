@@ -1,0 +1,4 @@
+vendor/
+dist/
+bun.lock
+rules.manifest.json

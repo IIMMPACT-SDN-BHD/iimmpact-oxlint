@@ -1,0 +1,74 @@
+{
+  "name": "@iimmpact/oxlint",
+  "version": "0.1.0",
+  "description": "IIMMPACT's curated Oxlint plugins and presets for anti-slop and Effect codebases.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IIMMPACT-SDN-BHD/iimmpact-oxlint.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "NOTICE.md",
+    "vendor/README.md",
+    "vendor/anti-slop/LICENSE",
+    "vendor/oxc-effect/LICENSE",
+    "upstream.lock.json",
+    "rules.manifest.json"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./anti-slop": {
+      "types": "./dist/plugins/anti-slop.d.ts",
+      "import": "./dist/plugins/anti-slop.js"
+    },
+    "./effect": {
+      "types": "./dist/plugins/effect.d.ts",
+      "import": "./dist/plugins/effect.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "iimmpact-oxlint": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "bun run manifest:check && rm -rf dist && bun build src/index.ts src/cli.ts src/plugins/anti-slop.ts src/plugins/effect.ts --outdir dist --target node --format esm --external @oxlint/plugins && bunx tsc -p tsconfig.build.json && cp src/plugin-types/*.d.ts dist/plugins/ && chmod +x dist/cli.js",
+    "prepack": "bun run build",
+    "format": "bunx prettier --check .",
+    "format:fix": "bunx prettier --write .",
+    "lint": "oxlint src scripts tests",
+    "typecheck": "bunx tsc --noEmit",
+    "test": "bun test tests/cli.test.ts tests/presets.test.ts && bun scripts/run-vendored-tests.ts",
+    "test:package": "bun scripts/package-smoke.ts",
+    "check": "bun run format && bun run lint && bun run typecheck && bun run test && bun run manifest:check && bun run build && bun run test:package",
+    "manifest:generate": "bun scripts/generate-manifest.ts",
+    "manifest:check": "bun scripts/generate-manifest.ts --check",
+    "sync:upstream": "bun scripts/sync-upstream.ts",
+    "sync:check": "bun scripts/sync-upstream.ts --check",
+    "vendor:verify": "bun scripts/vendor-verify.ts"
+  },
+  "dependencies": {
+    "@oxlint/plugins": "1.78.0",
+    "oxlint": "1.78.0"
+  },
+  "devDependencies": {
+    "@types/bun": "1.2.21",
+    "@types/node": "26.2.0",
+    "jsonc-parser": "3.3.1",
+    "prettier": "3.6.2",
+    "typescript": "7.0.2"
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.18.0"
+  },
+  "packageManager": "bun@1.3.14"
+}

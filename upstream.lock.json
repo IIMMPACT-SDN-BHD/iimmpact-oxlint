@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "upstreams": {
+    "anti-slop": {
+      "repository": "https://github.com/dmmulroy/anti-slop.git",
+      "defaultBranch": "main",
+      "sha": "446268e5d15baa968eaec669ff65358d36ae6259",
+      "paths": ["LICENSE", "src"]
+    },
+    "oxc-effect": {
+      "repository": "https://github.com/shekohex/oxc-effect-linting-rules.git",
+      "defaultBranch": "master",
+      "sha": "d33f808bf3edd91193f5b36b0e847649fa9bc4b1",
+      "paths": ["LICENSE", "plugin.js", "lib", "rules", "configs"]
+    }
+  }
+}
