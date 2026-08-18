@@ -67,7 +67,7 @@ try {
   run(["bun", "add", resolve(temporaryDirectory, tarball)], consumer);
   await writeFile(
     resolve(consumer, "consumer.ts"),
-    'import { full, withExceptions } from "@iimmpact/oxlint";\nimport antiSlop from "@iimmpact/oxlint/anti-slop";\nimport effect from "@iimmpact/oxlint/effect";\nconst configured = withExceptions({ ...full, customField: "preserved" as const }, []);\nconst preserved: "preserved" = configured.customField;\nconst counts: number[] = [Object.keys(antiSlop.rules).length, Object.keys(effect.rules).length];\nconsole.log(preserved, counts);\n',
+    'import { full, withExceptions } from "@iimmpact-sdn-bhd/oxlint";\nimport antiSlop from "@iimmpact-sdn-bhd/oxlint/anti-slop";\nimport effect from "@iimmpact-sdn-bhd/oxlint/effect";\nconst configured = withExceptions({ ...full, customField: "preserved" as const }, []);\nconst preserved: "preserved" = configured.customField;\nconst counts: number[] = [Object.keys(antiSlop.rules).length, Object.keys(effect.rules).length];\nconsole.log(preserved, counts);\n',
   );
   await writeFile(
     resolve(consumer, "tsconfig.json"),
@@ -82,7 +82,7 @@ try {
       "node",
       "--input-type=module",
       "--eval",
-      'const root=await import("@iimmpact/oxlint"); const anti=await import("@iimmpact/oxlint/anti-slop"); const effect=await import("@iimmpact/oxlint/effect"); if(Object.keys(root.full.rules).length!==87||Object.keys(anti.default.rules).length!==15||Object.keys(effect.default.rules).length!==72) process.exit(1)',
+      'const root=await import("@iimmpact-sdn-bhd/oxlint"); const anti=await import("@iimmpact-sdn-bhd/oxlint/anti-slop"); const effect=await import("@iimmpact-sdn-bhd/oxlint/effect"); if(Object.keys(root.full.rules).length!==87||Object.keys(anti.default.rules).length!==15||Object.keys(effect.default.rules).length!==72) process.exit(1)',
     ],
     consumer,
   );
@@ -102,7 +102,7 @@ try {
   );
   await writeFile(
     resolve(consumer, "oxlint.config.ts"),
-    'import { presets } from "@iimmpact/oxlint";\nexport default presets.base;\n',
+    'import { presets } from "@iimmpact-sdn-bhd/oxlint";\nexport default presets.base;\n',
   );
   run(
     [

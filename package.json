@@ -1,5 +1,5 @@
 {
-  "name": "@iimmpact/oxlint",
+  "name": "@iimmpact-sdn-bhd/oxlint",
   "version": "0.1.0",
   "description": "IIMMPACT's curated Oxlint plugins and presets for anti-slop and Effect codebases.",
   "type": "module",

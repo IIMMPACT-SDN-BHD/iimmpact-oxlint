@@ -18,8 +18,11 @@ export type { RuleSeverity } from "./generated/manifests.js";
 export type PresetName = "base" | "effect" | "effect-web" | "full";
 
 const plugins = {
-  antiSlop: { name: "anti-slop", specifier: "@iimmpact/oxlint/anti-slop" },
-  effect: { name: "effect", specifier: "@iimmpact/oxlint/effect" },
+  antiSlop: {
+    name: "anti-slop",
+    specifier: "@iimmpact-sdn-bhd/oxlint/anti-slop",
+  },
+  effect: { name: "effect", specifier: "@iimmpact-sdn-bhd/oxlint/effect" },
 } as const;
 
 function mergeRules(

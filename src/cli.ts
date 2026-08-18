@@ -125,7 +125,7 @@ function init(name: PresetName, force: boolean): void {
   const path = "oxlint.config.ts";
   writeFileSync(
     path,
-    `import { presets } from "@iimmpact/oxlint";\n\nexport default presets[${JSON.stringify(name)}];\n`,
+    `import { presets } from "@iimmpact-sdn-bhd/oxlint";\n\nexport default presets[${JSON.stringify(name)}];\n`,
   );
   console.log(`wrote ${path} using the ${name} preset`);
 }

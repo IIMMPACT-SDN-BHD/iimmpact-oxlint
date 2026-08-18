@@ -1,4 +1,4 @@
-# @iimmpact/oxlint
+# @iimmpact-sdn-bhd/oxlint
 
 Curated Oxlint plugins and presets for IIMMPACT TypeScript repositories. The package combines 15 general anti-slop rules with 72 Effect architecture rules while retaining their original `anti-slop/*` and `effect/*` namespaces.
 
@@ -7,7 +7,7 @@ Curated Oxlint plugins and presets for IIMMPACT TypeScript repositories. The pac
 Pin the package so the rules and bundled Oxlint executable move together:
 
 ```sh
-bun add --dev @iimmpact/oxlint@0.1.0
+bun add --dev @iimmpact-sdn-bhd/oxlint@0.1.0
 ```
 
 Node.js 22.18 or newer is required. `oxlint` and `@oxlint/plugins` are both pinned to `1.78.0`. Published packages contain compiled JavaScript plugins; consumers do not execute TypeScript plugin source.
@@ -29,17 +29,17 @@ Effect severities are preserved from the upstream full preset; anti-slop rules a
 
 ```ts
 // oxlint.config.ts
-import { presets } from "@iimmpact/oxlint";
+import { presets } from "@iimmpact-sdn-bhd/oxlint";
 
 export default presets.base;
 ```
 
-Exports are deliberately small: `presets`, named `base`, `effect`, `effectWeb`, and `full` presets, `getPreset`, and `withExceptions`. Plugin entrypoints are available at `@iimmpact/oxlint/anti-slop` and `@iimmpact/oxlint/effect` for tools that need them directly.
+Exports are deliberately small: `presets`, named `base`, `effect`, `effectWeb`, and `full` presets, `getPreset`, and `withExceptions`. Plugin entrypoints are available at `@iimmpact-sdn-bhd/oxlint/anti-slop` and `@iimmpact-sdn-bhd/oxlint/effect` for tools that need them directly.
 
 Use narrow file-scoped exceptions without mutating defaults:
 
 ```ts
-import { full, withExceptions } from "@iimmpact/oxlint";
+import { full, withExceptions } from "@iimmpact-sdn-bhd/oxlint";
 
 export default withExceptions(full, [
   {

@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "@iimmpact/oxlint",
+      "name": "@iimmpact-sdn-bhd/oxlint",
       "dependencies": {
         "@oxlint/plugins": "1.78.0",
         "oxlint": "1.78.0",
