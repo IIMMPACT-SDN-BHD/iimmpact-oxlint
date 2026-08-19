@@ -7,7 +7,7 @@ Curated Oxlint plugins and presets for IIMMPACT TypeScript repositories. The pac
 Pin the package so the rules and bundled Oxlint executable move together:
 
 ```sh
-bun add --dev @iimmpact-sdn-bhd/oxlint@0.2.0
+bun add --dev @iimmpact-sdn-bhd/oxlint@0.2.1
 ```
 
 Node.js 22.18 or newer is required. `oxlint` and `@oxlint/plugins` are both pinned to `1.78.0`; `oxlint-tsgolint` is pinned to `7.0.2001`. Published packages contain compiled JavaScript plugins; consumers do not execute TypeScript plugin source.

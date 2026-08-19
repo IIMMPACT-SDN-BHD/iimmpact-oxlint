@@ -7,7 +7,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
-import { delimiter, dirname, join, resolve } from "node:path";
+import { basename, delimiter, dirname, join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
@@ -52,11 +52,18 @@ function packageRoot(): string {
 function absoluteConfig(name: PresetName) {
   const preset = getPreset(name);
   const root = packageRoot();
+  const sourceRuntime =
+    basename(dirname(fileURLToPath(import.meta.url))) === "src";
   return {
     ...preset,
     jsPlugins: preset.jsPlugins.map((plugin) => ({
       ...plugin,
-      specifier: resolve(root, `dist/plugins/${plugin.name}.js`),
+      specifier: resolve(
+        root,
+        sourceRuntime
+          ? `src/plugins/${plugin.name}.ts`
+          : `dist/plugins/${plugin.name}.js`,
+      ),
     })),
   };
 }
