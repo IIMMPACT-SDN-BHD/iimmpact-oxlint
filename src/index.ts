@@ -3,6 +3,7 @@ import {
   effectCoreRules,
   effectFullRules,
   effectWebRules,
+  typescriptDisciplineRules,
   type RuleSeverity,
 } from "./generated/manifests.js";
 import type { OxlintConfig } from "./exceptions.js";
@@ -32,18 +33,38 @@ function mergeRules(
 }
 
 export const presets = {
-  base: { jsPlugins: [plugins.antiSlop], rules: antiSlopRules },
+  base: {
+    jsPlugins: [plugins.antiSlop],
+    rules: mergeRules(antiSlopRules, typescriptDisciplineRules),
+    options: { typeAware: true },
+  },
   effect: {
     jsPlugins: [plugins.antiSlop, plugins.effect],
-    rules: mergeRules(antiSlopRules, effectCoreRules),
+    rules: mergeRules(
+      antiSlopRules,
+      typescriptDisciplineRules,
+      effectCoreRules,
+    ),
+    options: { typeAware: true },
   },
   "effect-web": {
     jsPlugins: [plugins.antiSlop, plugins.effect],
-    rules: mergeRules(antiSlopRules, effectCoreRules, effectWebRules),
+    rules: mergeRules(
+      antiSlopRules,
+      typescriptDisciplineRules,
+      effectCoreRules,
+      effectWebRules,
+    ),
+    options: { typeAware: true },
   },
   full: {
     jsPlugins: [plugins.antiSlop, plugins.effect],
-    rules: mergeRules(antiSlopRules, effectFullRules),
+    rules: mergeRules(
+      antiSlopRules,
+      typescriptDisciplineRules,
+      effectFullRules,
+    ),
+    options: { typeAware: true },
   },
 } as const satisfies Record<PresetName, OxlintConfig>;
 

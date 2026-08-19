@@ -1,9 +1,10 @@
 {
-  "generatedFrom": "vendor source snapshots and upstream presets",
+  "generatedFrom": "vendor source snapshots, upstream presets, and the curated TypeScript discipline inventory",
   "counts": {
     "antiSlop": 15,
+    "typescriptDiscipline": 11,
     "effect": 72,
-    "full": 87
+    "full": 98
   },
   "rules": {
     "antiSlop": {
@@ -22,6 +23,19 @@
       "anti-slop/no-unsafe-dictionary-type": "error",
       "anti-slop/no-widen-then-assert": "error",
       "anti-slop/require-safety-comment-for-type-assertion": "error"
+    },
+    "typescriptDiscipline": {
+      "typescript/no-explicit-any": "error",
+      "typescript/no-non-null-assertion": "error",
+      "typescript/no-unnecessary-type-assertion": "error",
+      "typescript/no-unsafe-argument": "error",
+      "typescript/no-unsafe-assignment": "error",
+      "typescript/no-unsafe-call": "error",
+      "typescript/no-unsafe-member-access": "error",
+      "typescript/no-unsafe-return": "error",
+      "typescript/no-unsafe-type-assertion": "error",
+      "typescript/switch-exhaustiveness-check": "error",
+      "typescript/use-unknown-in-catch-callback-variable": "error"
     },
     "effect": {
       "effect/no-arrow-ladder": "error",
@@ -114,7 +128,18 @@
       "anti-slop/no-unknown-type-aliases": "error",
       "anti-slop/no-unsafe-dictionary-type": "error",
       "anti-slop/no-widen-then-assert": "error",
-      "anti-slop/require-safety-comment-for-type-assertion": "error"
+      "anti-slop/require-safety-comment-for-type-assertion": "error",
+      "typescript/no-explicit-any": "error",
+      "typescript/no-non-null-assertion": "error",
+      "typescript/no-unnecessary-type-assertion": "error",
+      "typescript/no-unsafe-argument": "error",
+      "typescript/no-unsafe-assignment": "error",
+      "typescript/no-unsafe-call": "error",
+      "typescript/no-unsafe-member-access": "error",
+      "typescript/no-unsafe-return": "error",
+      "typescript/no-unsafe-type-assertion": "error",
+      "typescript/switch-exhaustiveness-check": "error",
+      "typescript/use-unknown-in-catch-callback-variable": "error"
     },
     "effect": {
       "anti-slop/no-chained-type-assertions": "error",
@@ -192,7 +217,18 @@
       "effect/prefer-schema-json": "warn",
       "effect/prevent-dynamic-imports": "error",
       "effect/require-return-yield-effect-terminal": "error",
-      "effect/warn-effect-sync-wrapper": "warn"
+      "effect/warn-effect-sync-wrapper": "warn",
+      "typescript/no-explicit-any": "error",
+      "typescript/no-non-null-assertion": "error",
+      "typescript/no-unnecessary-type-assertion": "error",
+      "typescript/no-unsafe-argument": "error",
+      "typescript/no-unsafe-assignment": "error",
+      "typescript/no-unsafe-call": "error",
+      "typescript/no-unsafe-member-access": "error",
+      "typescript/no-unsafe-return": "error",
+      "typescript/no-unsafe-type-assertion": "error",
+      "typescript/switch-exhaustiveness-check": "error",
+      "typescript/use-unknown-in-catch-callback-variable": "error"
     },
     "effect-web": {
       "anti-slop/no-chained-type-assertions": "error",
@@ -275,7 +311,18 @@
       "effect/prefer-schema-json": "warn",
       "effect/prevent-dynamic-imports": "error",
       "effect/require-return-yield-effect-terminal": "error",
-      "effect/warn-effect-sync-wrapper": "warn"
+      "effect/warn-effect-sync-wrapper": "warn",
+      "typescript/no-explicit-any": "error",
+      "typescript/no-non-null-assertion": "error",
+      "typescript/no-unnecessary-type-assertion": "error",
+      "typescript/no-unsafe-argument": "error",
+      "typescript/no-unsafe-assignment": "error",
+      "typescript/no-unsafe-call": "error",
+      "typescript/no-unsafe-member-access": "error",
+      "typescript/no-unsafe-return": "error",
+      "typescript/no-unsafe-type-assertion": "error",
+      "typescript/switch-exhaustiveness-check": "error",
+      "typescript/use-unknown-in-catch-callback-variable": "error"
     },
     "full": {
       "anti-slop/no-chained-type-assertions": "error",
@@ -364,7 +411,18 @@
       "effect/prefer-schema-json": "warn",
       "effect/prevent-dynamic-imports": "error",
       "effect/require-return-yield-effect-terminal": "error",
-      "effect/warn-effect-sync-wrapper": "warn"
+      "effect/warn-effect-sync-wrapper": "warn",
+      "typescript/no-explicit-any": "error",
+      "typescript/no-non-null-assertion": "error",
+      "typescript/no-unnecessary-type-assertion": "error",
+      "typescript/no-unsafe-argument": "error",
+      "typescript/no-unsafe-assignment": "error",
+      "typescript/no-unsafe-call": "error",
+      "typescript/no-unsafe-member-access": "error",
+      "typescript/no-unsafe-return": "error",
+      "typescript/no-unsafe-type-assertion": "error",
+      "typescript/switch-exhaustiveness-check": "error",
+      "typescript/use-unknown-in-catch-callback-variable": "error"
     }
   }
 }

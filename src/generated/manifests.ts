@@ -20,6 +20,20 @@ export const antiSlopRules = {
   "anti-slop/require-safety-comment-for-type-assertion": "error",
 } as const satisfies Readonly<Record<string, RuleSeverity>>;
 
+export const typescriptDisciplineRules = {
+  "typescript/no-explicit-any": "error",
+  "typescript/no-non-null-assertion": "error",
+  "typescript/no-unnecessary-type-assertion": "error",
+  "typescript/no-unsafe-argument": "error",
+  "typescript/no-unsafe-assignment": "error",
+  "typescript/no-unsafe-call": "error",
+  "typescript/no-unsafe-member-access": "error",
+  "typescript/no-unsafe-return": "error",
+  "typescript/no-unsafe-type-assertion": "error",
+  "typescript/switch-exhaustiveness-check": "error",
+  "typescript/use-unknown-in-catch-callback-variable": "error",
+} as const satisfies Readonly<Record<string, RuleSeverity>>;
+
 export const effectCoreRules = {
   "effect/no-arrow-ladder": "error",
   "effect/no-branch-in-object": "error",

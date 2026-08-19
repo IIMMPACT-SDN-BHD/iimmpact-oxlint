@@ -39,7 +39,10 @@ describe("CLI", () => {
     expect(result.stdout.toString()).toContain(
       "error anti-slop/no-module-mocking",
     );
-    expect(result.stdout.toString()).toContain("15 rules (base)");
+    expect(result.stdout.toString()).toContain(
+      "error typescript/no-unsafe-assignment",
+    );
+    expect(result.stdout.toString()).toContain("26 rules (base)");
   });
 
   test("requires a value after --preset", () => {
@@ -104,5 +107,27 @@ describe("CLI", () => {
       (name) => name.startsWith("iimmpact-oxlint-") && !before.has(name),
     );
     expect(added).toEqual([]);
+  });
+
+  test("runs type-aware TypeScript rules", () => {
+    const cwd = temporaryDirectory();
+    writeFileSync(
+      resolve(cwd, "tsconfig.json"),
+      JSON.stringify({
+        compilerOptions: { strict: true, target: "ES2022" },
+        include: ["unsafe.ts"],
+      }),
+    );
+    writeFileSync(
+      resolve(cwd, "unsafe.ts"),
+      'const parsed = JSON.parse("{}");\nexport const name: string = parsed.name;\n',
+    );
+
+    const result = run(["check", "unsafe.ts"], cwd);
+    const output = result.stdout.toString() + result.stderr.toString();
+
+    expect(result.exitCode).not.toBe(0);
+    expect(output).toContain("typescript(no-unsafe-assignment)");
+    expect(output).toContain("typescript(no-unsafe-member-access)");
   });
 });

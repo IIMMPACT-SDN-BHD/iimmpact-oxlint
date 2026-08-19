@@ -82,7 +82,7 @@ try {
       "node",
       "--input-type=module",
       "--eval",
-      'const root=await import("@iimmpact-sdn-bhd/oxlint"); const anti=await import("@iimmpact-sdn-bhd/oxlint/anti-slop"); const effect=await import("@iimmpact-sdn-bhd/oxlint/effect"); if(Object.keys(root.full.rules).length!==87||Object.keys(anti.default.rules).length!==15||Object.keys(effect.default.rules).length!==72) process.exit(1)',
+      'const root=await import("@iimmpact-sdn-bhd/oxlint"); const anti=await import("@iimmpact-sdn-bhd/oxlint/anti-slop"); const effect=await import("@iimmpact-sdn-bhd/oxlint/effect"); if(Object.keys(root.full.rules).length!==98||Object.keys(anti.default.rules).length!==15||Object.keys(effect.default.rules).length!==72||root.full.options?.typeAware!==true) process.exit(1)',
     ],
     consumer,
   );
@@ -94,7 +94,7 @@ try {
     ],
     consumer,
   );
-  if (!output.includes("87 rules (full)"))
+  if (!output.includes("98 rules (full)"))
     throw new Error("Packed CLI did not load the full preset");
   await writeFile(
     resolve(consumer, "clean.ts"),

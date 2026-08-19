@@ -1,27 +1,27 @@
 # @iimmpact-sdn-bhd/oxlint
 
-Curated Oxlint plugins and presets for IIMMPACT TypeScript repositories. The package combines 15 general anti-slop rules with 72 Effect architecture rules while retaining their original `anti-slop/*` and `effect/*` namespaces.
+Curated Oxlint plugins and presets for IIMMPACT TypeScript repositories. The package combines 15 general anti-slop rules, 11 type-aware TypeScript discipline rules, and 72 Effect architecture rules while retaining the original `anti-slop/*` and `effect/*` namespaces.
 
 ## Install
 
 Pin the package so the rules and bundled Oxlint executable move together:
 
 ```sh
-bun add --dev @iimmpact-sdn-bhd/oxlint@0.1.0
+bun add --dev @iimmpact-sdn-bhd/oxlint@0.2.0
 ```
 
-Node.js 22.18 or newer is required. `oxlint` and `@oxlint/plugins` are both pinned to `1.78.0`. Published packages contain compiled JavaScript plugins; consumers do not execute TypeScript plugin source.
+Node.js 22.18 or newer is required. `oxlint` and `@oxlint/plugins` are both pinned to `1.78.0`; `oxlint-tsgolint` is pinned to `7.0.2001`. Published packages contain compiled JavaScript plugins; consumers do not execute TypeScript plugin source.
 
 ## Profiles
 
 | Preset       | Rules | Contents                                                          |
 | ------------ | ----: | ----------------------------------------------------------------- |
-| `base`       |    15 | All anti-slop rules, all errors                                   |
-| `effect`     |    76 | `base` plus the 61-rule upstream Effect core preset               |
-| `effect-web` |    81 | `effect` plus the five additional web rules (six web rules total) |
-| `full`       |    87 | All 15 anti-slop and all 72 Effect rules                          |
+| `base`       |    26 | All anti-slop and TypeScript discipline rules                     |
+| `effect`     |    87 | `base` plus the 61-rule upstream Effect core preset               |
+| `effect-web` |    92 | `effect` plus the five additional web rules (six web rules total) |
+| `full`       |    98 | `base` plus all 72 Effect rules                                   |
 
-Effect severities are preserved from the upstream full preset; anti-slop rules are errors.
+Effect severities are preserved from the upstream full preset; anti-slop and TypeScript discipline rules are errors. Every preset enables type-aware linting. External input must be decoded before it enters application functions; use narrow file-scoped exceptions when an integration contract requires manual `unknown` or `typeof` handling.
 
 > **Choose Effect profiles intentionally.** `full`, and especially its Effect/web rules, enforce architecture policies rather than only identifying correctness defects. Adopt them when the repository has agreed to those constraints, not as an automatic upgrade from `base`.
 
@@ -65,7 +65,7 @@ bunx iimmpact-oxlint rules --preset=full
 
 ## Upstream policy
 
-[`upstream.lock.json`](upstream.lock.json) pins provenance commits. [`rules.manifest.json`](rules.manifest.json) is generated from the vendored plugin/config sources and build assertions enforce exactly 15 anti-slop rules, 72 Effect rules, 87 total rules, and consistent upstream preset unions.
+[`upstream.lock.json`](upstream.lock.json) pins provenance commits. [`rules.manifest.json`](rules.manifest.json) is generated from the vendored plugin/config sources and the curated TypeScript discipline inventory. Build assertions enforce exactly 15 anti-slop rules, 11 TypeScript discipline rules, 72 Effect rules, 98 total rules, and consistent upstream preset unions.
 
 A weekly and manually dispatched workflow mirrors only allowlisted source paths from both upstream default branches, regenerates provenance/manifests, runs the full checks, and creates or updates a pull request. It requests GitHub auto-merge after required checks rather than writing directly to `main`. Any upstream license change stops synchronization for manual review.
 

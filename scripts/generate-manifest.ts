@@ -38,6 +38,19 @@ const qualify = (namespace: string, names: readonly string[]): RuleMap =>
   );
 
 const anti = qualify("anti-slop", antiNames);
+const typescriptDiscipline = qualify("typescript", [
+  "no-explicit-any",
+  "no-non-null-assertion",
+  "no-unnecessary-type-assertion",
+  "no-unsafe-argument",
+  "no-unsafe-assignment",
+  "no-unsafe-call",
+  "no-unsafe-member-access",
+  "no-unsafe-return",
+  "no-unsafe-type-assertion",
+  "switch-exhaustiveness-check",
+  "use-unknown-in-catch-callback-variable",
+]);
 const core = await readConfig("core");
 const webConfig = await readConfig("web");
 const tsType = await readConfig("ts-type");
@@ -64,7 +77,15 @@ assert(
 );
 assert(
   new Set([...Object.keys(anti), ...Object.keys(full)]).size === 87,
-  "Full preset must contain 87 unique rules",
+  "Upstream plugin inventories must contain 87 unique rules",
+);
+assert(
+  new Set([
+    ...Object.keys(anti),
+    ...Object.keys(typescriptDiscipline),
+    ...Object.keys(full),
+  ]).size === 98,
+  "Full curated preset must contain 98 unique rules",
 );
 
 const upstreamPresetUnion = new Set([
@@ -91,9 +112,21 @@ const sorted = (rules: RuleMap): RuleMap =>
   );
 const values = {
   antiSlopRules: sorted(anti),
+  typescriptDisciplineRules: sorted(typescriptDiscipline),
   effectCoreRules: sorted(core),
   effectWebRules: sorted(webConfig),
   effectFullRules: sorted(full),
+};
+const presetValues = {
+  base: sorted({ ...anti, ...typescriptDiscipline }),
+  effect: sorted({ ...anti, ...typescriptDiscipline, ...core }),
+  "effect-web": sorted({
+    ...anti,
+    ...typescriptDiscipline,
+    ...core,
+    ...webConfig,
+  }),
+  full: sorted({ ...anti, ...typescriptDiscipline, ...full }),
 };
 
 const generated = await format(
@@ -110,15 +143,20 @@ const generated = await format(
 
 const manifest = `${JSON.stringify(
   {
-    generatedFrom: "vendor source snapshots and upstream presets",
-    counts: { antiSlop: 15, effect: 72, full: 87 },
-    rules: { antiSlop: values.antiSlopRules, effect: values.effectFullRules },
-    presets: {
-      base: values.antiSlopRules,
-      effect: sorted({ ...anti, ...core }),
-      "effect-web": sorted({ ...anti, ...core, ...webConfig }),
-      full: sorted({ ...anti, ...full }),
+    generatedFrom:
+      "vendor source snapshots, upstream presets, and the curated TypeScript discipline inventory",
+    counts: {
+      antiSlop: 15,
+      typescriptDiscipline: 11,
+      effect: 72,
+      full: 98,
     },
+    rules: {
+      antiSlop: values.antiSlopRules,
+      typescriptDiscipline: values.typescriptDisciplineRules,
+      effect: values.effectFullRules,
+    },
+    presets: presetValues,
   },
   null,
   2,
@@ -143,5 +181,7 @@ if (checkOnly) {
     await mkdir(dirname(path), { recursive: true });
     await writeFile(path, contents);
   }
-  console.log("Generated manifests: 15 anti-slop + 72 Effect = 87 rules");
+  console.log(
+    "Generated manifests: 15 anti-slop + 11 TypeScript discipline + 72 Effect = 98 rules",
+  );
 }

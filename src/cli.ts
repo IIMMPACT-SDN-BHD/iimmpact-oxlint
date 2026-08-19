@@ -7,7 +7,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
-import { dirname, join, resolve } from "node:path";
+import { delimiter, dirname, join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
@@ -68,11 +68,17 @@ function runCheck(name: PresetName, paths: string[]): number {
   try {
     const require = createRequire(import.meta.url);
     const packageJson = require.resolve("oxlint/package.json");
+    const tsgolintPackageJson = require.resolve("oxlint-tsgolint/package.json");
     const executable = resolve(dirname(packageJson), "bin/oxlint");
+    const dependencyBin = resolve(dirname(tsgolintPackageJson), "../.bin");
     const result = spawnSync(
       process.execPath,
       [executable, "--config", configPath, ...(paths.length ? paths : ["."])],
       {
+        env: {
+          ...process.env,
+          PATH: `${dependencyBin}${delimiter}${process.env.PATH ?? ""}`,
+        },
         stdio: "inherit",
       },
     );

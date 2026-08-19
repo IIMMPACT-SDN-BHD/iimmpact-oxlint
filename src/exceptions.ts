@@ -13,6 +13,9 @@ export interface ScopedException {
 export interface OxlintConfig {
   jsPlugins: readonly { name: string; specifier: string }[];
   rules: Readonly<Record<string, RuleSeverity>>;
+  options?: Readonly<{
+    typeAware?: boolean;
+  }>;
   overrides?: readonly ScopedException[];
 }
 
