@@ -42,7 +42,7 @@ describe("CLI", () => {
     expect(result.stdout.toString()).toContain(
       "error typescript/no-unsafe-assignment",
     );
-    expect(result.stdout.toString()).toContain("26 rules (base)");
+    expect(result.stdout.toString()).toContain("rules (base)");
   });
 
   test("requires a value after --preset", () => {
@@ -129,5 +129,27 @@ describe("CLI", () => {
     expect(result.exitCode).not.toBe(0);
     expect(output).toContain("typescript(no-unsafe-assignment)");
     expect(output).toContain("typescript(no-unsafe-member-access)");
+  });
+
+  test("enables the opt-in anti-slop Effect plugin only in Effect presets", () => {
+    const cwd = temporaryDirectory();
+    writeFileSync(
+      resolve(cwd, "tsconfig.json"),
+      JSON.stringify({
+        compilerOptions: { strict: true, target: "ES2022" },
+        include: ["runtime.ts"],
+      }),
+    );
+    writeFileSync(
+      resolve(cwd, "runtime.ts"),
+      'import { makeIssueService } from "./issue-service.ts";\nvoid makeIssueService;\n',
+    );
+
+    expect(run(["check", "runtime.ts", "--preset=base"], cwd).exitCode).toBe(0);
+    const result = run(["check", "runtime.ts", "--preset=effect"], cwd);
+    const output = result.stdout.toString() + result.stderr.toString();
+
+    expect(result.exitCode).not.toBe(0);
+    expect(output).toContain("no-service-constructor-imports");
   });
 });

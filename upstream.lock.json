@@ -4,7 +4,7 @@
     "anti-slop": {
       "repository": "https://github.com/dmmulroy/anti-slop.git",
       "defaultBranch": "main",
-      "sha": "446268e5d15baa968eaec669ff65358d36ae6259",
+      "sha": "6d538555cb151d4121ed51a27db81890eacf8ae9",
       "paths": ["LICENSE", "src"]
     },
     "oxc-effect": {

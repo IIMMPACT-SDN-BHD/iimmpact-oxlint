@@ -20,6 +20,10 @@ export const antiSlopRules = {
   "anti-slop/require-safety-comment-for-type-assertion": "error",
 } as const satisfies Readonly<Record<string, RuleSeverity>>;
 
+export const antiSlopEffectRules = {
+  "anti-slop-effect/no-service-constructor-imports": "error",
+} as const satisfies Readonly<Record<string, RuleSeverity>>;
+
 export const typescriptDisciplineRules = {
   "typescript/no-explicit-any": "error",
   "typescript/no-non-null-assertion": "error",

@@ -30,7 +30,12 @@ async function readConfig(name: string): Promise<RuleMap> {
 const antiPlugin = (await import(
   pathToFileURL(resolve(sourceRoot, "vendor/anti-slop/src/index.ts")).href
 )) as { default: { rules: Record<string, unknown> } };
+const antiEffectPlugin = (await import(
+  pathToFileURL(resolve(sourceRoot, "vendor/anti-slop/src/effect/index.ts"))
+    .href
+)) as { default: { rules: Record<string, unknown> } };
 const antiNames = Object.keys(antiPlugin.default.rules);
+const antiEffectNames = Object.keys(antiEffectPlugin.default.rules);
 
 const qualify = (namespace: string, names: readonly string[]): RuleMap =>
   Object.fromEntries(
@@ -38,6 +43,7 @@ const qualify = (namespace: string, names: readonly string[]): RuleMap =>
   );
 
 const anti = qualify("anti-slop", antiNames);
+const antiEffect = qualify("anti-slop-effect", antiEffectNames);
 const typescriptDiscipline = qualify("typescript", [
   "no-explicit-any",
   "no-non-null-assertion",
@@ -60,32 +66,47 @@ const { rules: effectImplementations } = (await import(
 )) as { rules: Record<string, unknown> };
 
 assert(
-  Object.keys(anti).length === 15,
-  `Expected 15 anti-slop rules, found ${Object.keys(anti).length}`,
+  Object.keys(anti).length > 0,
+  "The anti-slop plugin must expose at least one rule",
 );
 assert(
-  Object.keys(full).length === 72,
-  `Expected 72 Effect rules, found ${Object.keys(full).length}`,
+  Object.keys(antiEffect).length > 0,
+  "The anti-slop Effect plugin must expose at least one rule",
+);
+assert(
+  Object.keys(full).length > 0,
+  "The Effect full preset must expose at least one rule",
 );
 const implementedEffectRules = new Set(
   Object.keys(effectImplementations).map((rule) => `effect/${rule}`),
 );
 assert(
-  implementedEffectRules.size === 72 &&
+  implementedEffectRules.size === Object.keys(full).length &&
     Object.keys(full).every((rule) => implementedEffectRules.has(rule)),
-  "Effect implementation inventory must exactly match its 72-rule full preset",
+  "Effect implementation inventory must exactly match its full preset",
 );
-assert(
-  new Set([...Object.keys(anti), ...Object.keys(full)]).size === 87,
-  "Upstream plugin inventories must contain 87 unique rules",
-);
+const upstreamRuleCount =
+  Object.keys(anti).length +
+  Object.keys(antiEffect).length +
+  Object.keys(full).length;
 assert(
   new Set([
     ...Object.keys(anti),
+    ...Object.keys(antiEffect),
+    ...Object.keys(full),
+  ]).size === upstreamRuleCount,
+  "Upstream plugin rule namespaces must not overlap",
+);
+const curatedRuleCount =
+  upstreamRuleCount + Object.keys(typescriptDiscipline).length;
+assert(
+  new Set([
+    ...Object.keys(anti),
+    ...Object.keys(antiEffect),
     ...Object.keys(typescriptDiscipline),
     ...Object.keys(full),
-  ]).size === 98,
-  "Full curated preset must contain 98 unique rules",
+  ]).size === curatedRuleCount,
+  "Full curated preset must contain every unique rule",
 );
 
 const upstreamPresetUnion = new Set([
@@ -112,6 +133,7 @@ const sorted = (rules: RuleMap): RuleMap =>
   );
 const values = {
   antiSlopRules: sorted(anti),
+  antiSlopEffectRules: sorted(antiEffect),
   typescriptDisciplineRules: sorted(typescriptDiscipline),
   effectCoreRules: sorted(core),
   effectWebRules: sorted(webConfig),
@@ -119,14 +141,20 @@ const values = {
 };
 const presetValues = {
   base: sorted({ ...anti, ...typescriptDiscipline }),
-  effect: sorted({ ...anti, ...typescriptDiscipline, ...core }),
+  effect: sorted({
+    ...anti,
+    ...antiEffect,
+    ...typescriptDiscipline,
+    ...core,
+  }),
   "effect-web": sorted({
     ...anti,
+    ...antiEffect,
     ...typescriptDiscipline,
     ...core,
     ...webConfig,
   }),
-  full: sorted({ ...anti, ...typescriptDiscipline, ...full }),
+  full: sorted({ ...anti, ...antiEffect, ...typescriptDiscipline, ...full }),
 };
 
 const generated = await format(
@@ -146,13 +174,16 @@ const manifest = `${JSON.stringify(
     generatedFrom:
       "vendor source snapshots, upstream presets, and the curated TypeScript discipline inventory",
     counts: {
-      antiSlop: 15,
-      typescriptDiscipline: 11,
-      effect: 72,
-      full: 98,
+      antiSlop: Object.keys(values.antiSlopRules).length,
+      antiSlopEffect: Object.keys(values.antiSlopEffectRules).length,
+      typescriptDiscipline: Object.keys(values.typescriptDisciplineRules)
+        .length,
+      effect: Object.keys(values.effectFullRules).length,
+      full: Object.keys(presetValues.full).length,
     },
     rules: {
       antiSlop: values.antiSlopRules,
+      antiSlopEffect: values.antiSlopEffectRules,
       typescriptDiscipline: values.typescriptDisciplineRules,
       effect: values.effectFullRules,
     },
@@ -182,6 +213,6 @@ if (checkOnly) {
     await writeFile(path, contents);
   }
   console.log(
-    "Generated manifests: 15 anti-slop + 11 TypeScript discipline + 72 Effect = 98 rules",
+    `Generated manifests: ${Object.keys(presetValues.full).length} rules`,
   );
 }

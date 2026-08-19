@@ -1,4 +1,5 @@
 import {
+  antiSlopEffectRules,
   antiSlopRules,
   effectCoreRules,
   effectFullRules,
@@ -23,6 +24,10 @@ const plugins = {
     name: "anti-slop",
     specifier: "@iimmpact-sdn-bhd/oxlint/anti-slop",
   },
+  antiSlopEffect: {
+    name: "anti-slop-effect",
+    specifier: "@iimmpact-sdn-bhd/oxlint/anti-slop-effect",
+  },
   effect: { name: "effect", specifier: "@iimmpact-sdn-bhd/oxlint/effect" },
 } as const;
 
@@ -39,18 +44,20 @@ export const presets = {
     options: { typeAware: true },
   },
   effect: {
-    jsPlugins: [plugins.antiSlop, plugins.effect],
+    jsPlugins: [plugins.antiSlop, plugins.antiSlopEffect, plugins.effect],
     rules: mergeRules(
       antiSlopRules,
+      antiSlopEffectRules,
       typescriptDisciplineRules,
       effectCoreRules,
     ),
     options: { typeAware: true },
   },
   "effect-web": {
-    jsPlugins: [plugins.antiSlop, plugins.effect],
+    jsPlugins: [plugins.antiSlop, plugins.antiSlopEffect, plugins.effect],
     rules: mergeRules(
       antiSlopRules,
+      antiSlopEffectRules,
       typescriptDisciplineRules,
       effectCoreRules,
       effectWebRules,
@@ -58,9 +65,10 @@ export const presets = {
     options: { typeAware: true },
   },
   full: {
-    jsPlugins: [plugins.antiSlop, plugins.effect],
+    jsPlugins: [plugins.antiSlop, plugins.antiSlopEffect, plugins.effect],
     rules: mergeRules(
       antiSlopRules,
+      antiSlopEffectRules,
       typescriptDisciplineRules,
       effectFullRules,
     ),

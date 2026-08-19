@@ -12,6 +12,8 @@ import { basename, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { format } from "prettier";
 
+import { discoverPluginGroups } from "./upstream-plugin-groups.js";
+
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const checkOnly = process.argv.includes("--check");
 const legalNames = new Set([
@@ -22,6 +24,14 @@ const legalNames = new Set([
   "copying",
   "copying.md",
 ]);
+const integratedPluginGroups: Readonly<
+  Record<string, Readonly<Record<string, string>>>
+> = {
+  "anti-slop": {
+    "anti-slop": "src/index.ts",
+    "anti-slop-effect": "src/effect/index.ts",
+  },
+};
 
 interface Upstream {
   repository: string;
@@ -72,6 +82,35 @@ function assertLegalFiles(clone: string, name: string): void {
   }
 }
 
+async function assertIntegratedPluginGroups(
+  clone: string,
+  name: string,
+): Promise<void> {
+  const expected = integratedPluginGroups[name];
+  if (expected === undefined) return;
+
+  const sourcePaths = run(["git", "ls-files", "src"], clone)
+    .split("\n")
+    .filter((path) => /\.[cm]?[jt]sx?$/u.test(path));
+  const sources: Record<string, string> = {};
+  for (const path of sourcePaths) {
+    sources[path] = await readFile(resolve(clone, path), "utf8");
+  }
+  const actual = discoverPluginGroups(sources);
+
+  const unintegrated = [...actual].filter(
+    ([plugin, path]) => expected[plugin] !== path,
+  );
+  const missing = Object.entries(expected).filter(
+    ([plugin, path]) => actual.get(plugin) !== path,
+  );
+  if (unintegrated.length > 0 || missing.length > 0) {
+    throw new Error(
+      `${name} plugin groups changed; unintegrated: ${unintegrated.map(([plugin, path]) => `${plugin} at ${path}`).join(", ") || "none"}; missing: ${missing.map(([plugin, path]) => `${plugin} at ${path}`).join(", ") || "none"}`,
+    );
+  }
+}
+
 const lockPath = resolve(root, "upstream.lock.json");
 const lock = JSON.parse(await readFile(lockPath, "utf8")) as LockFile;
 const temporaryDirectory = await mkdtemp(resolve(root, ".sync-upstream-"));
@@ -100,6 +139,7 @@ try {
         `${name} checked out ${branch}, expected ${upstream.defaultBranch}`,
       );
     assertLegalFiles(clone, name);
+    await assertIntegratedPluginGroups(clone, name);
 
     const currentVendor = resolve(root, "vendor", name);
     const stagedVendor = resolve(stagedRoot, "vendor", name);

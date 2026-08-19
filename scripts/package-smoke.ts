@@ -1,4 +1,11 @@
-import { mkdir, mkdtemp, readdir, rm, writeFile } from "node:fs/promises";
+import {
+  mkdir,
+  mkdtemp,
+  readdir,
+  readFile,
+  rm,
+  writeFile,
+} from "node:fs/promises";
 import { homedir } from "node:os";
 import { resolve } from "node:path";
 
@@ -51,6 +58,8 @@ try {
     "dist/generated/manifests.d.ts",
     "dist/plugins/anti-slop.js",
     "dist/plugins/anti-slop.d.ts",
+    "dist/plugins/anti-slop-effect.js",
+    "dist/plugins/anti-slop-effect.d.ts",
     "dist/plugins/effect.js",
     "dist/plugins/effect.d.ts",
   ];
@@ -67,7 +76,7 @@ try {
   run(["bun", "add", resolve(temporaryDirectory, tarball)], consumer);
   await writeFile(
     resolve(consumer, "consumer.ts"),
-    'import { full, withExceptions } from "@iimmpact-sdn-bhd/oxlint";\nimport antiSlop from "@iimmpact-sdn-bhd/oxlint/anti-slop";\nimport effect from "@iimmpact-sdn-bhd/oxlint/effect";\nconst configured = withExceptions({ ...full, customField: "preserved" as const }, []);\nconst preserved: "preserved" = configured.customField;\nconst counts: number[] = [Object.keys(antiSlop.rules).length, Object.keys(effect.rules).length];\nconsole.log(preserved, counts);\n',
+    'import { full, withExceptions } from "@iimmpact-sdn-bhd/oxlint";\nimport antiSlop from "@iimmpact-sdn-bhd/oxlint/anti-slop";\nimport antiSlopEffect from "@iimmpact-sdn-bhd/oxlint/anti-slop-effect";\nimport effect from "@iimmpact-sdn-bhd/oxlint/effect";\nconst configured = withExceptions({ ...full, customField: "preserved" as const }, []);\nconst preserved: "preserved" = configured.customField;\nconst counts: number[] = [Object.keys(antiSlop.rules).length, Object.keys(antiSlopEffect.rules).length, Object.keys(effect.rules).length];\nconsole.log(preserved, counts);\n',
   );
   await writeFile(
     resolve(consumer, "tsconfig.json"),
@@ -82,7 +91,7 @@ try {
       "node",
       "--input-type=module",
       "--eval",
-      'const root=await import("@iimmpact-sdn-bhd/oxlint"); const anti=await import("@iimmpact-sdn-bhd/oxlint/anti-slop"); const effect=await import("@iimmpact-sdn-bhd/oxlint/effect"); if(Object.keys(root.full.rules).length!==98||Object.keys(anti.default.rules).length!==15||Object.keys(effect.default.rules).length!==72||root.full.options?.typeAware!==true) process.exit(1)',
+      'const root=await import("@iimmpact-sdn-bhd/oxlint"); const anti=await import("@iimmpact-sdn-bhd/oxlint/anti-slop"); const antiEffect=await import("@iimmpact-sdn-bhd/oxlint/anti-slop-effect"); const effect=await import("@iimmpact-sdn-bhd/oxlint/effect"); const included=(plugin,prefix,preset)=>Object.keys(plugin.default.rules).every(name=>preset.rules[`${prefix}/${name}`]); if(!included(anti,"anti-slop",root.base)||!included(antiEffect,"anti-slop-effect",root.effect)||!included(effect,"effect",root.full)||root.base.rules["anti-slop-effect/no-service-constructor-imports"]!==undefined||root.full.options?.typeAware!==true) process.exit(1)',
     ],
     consumer,
   );
@@ -94,7 +103,16 @@ try {
     ],
     consumer,
   );
-  if (!output.includes("98 rules (full)"))
+  const manifest = JSON.parse(
+    await readFile(
+      resolve(
+        consumer,
+        "node_modules/@iimmpact-sdn-bhd/oxlint/rules.manifest.json",
+      ),
+      "utf8",
+    ),
+  ) as { counts: { full: number } };
+  if (!output.includes(`${manifest.counts.full} rules (full)`))
     throw new Error("Packed CLI did not load the full preset");
   await writeFile(
     resolve(consumer, "clean.ts"),

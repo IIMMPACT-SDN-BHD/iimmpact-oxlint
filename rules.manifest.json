@@ -2,9 +2,10 @@
   "generatedFrom": "vendor source snapshots, upstream presets, and the curated TypeScript discipline inventory",
   "counts": {
     "antiSlop": 15,
+    "antiSlopEffect": 1,
     "typescriptDiscipline": 11,
     "effect": 72,
-    "full": 98
+    "full": 99
   },
   "rules": {
     "antiSlop": {
@@ -23,6 +24,9 @@
       "anti-slop/no-unsafe-dictionary-type": "error",
       "anti-slop/no-widen-then-assert": "error",
       "anti-slop/require-safety-comment-for-type-assertion": "error"
+    },
+    "antiSlopEffect": {
+      "anti-slop-effect/no-service-constructor-imports": "error"
     },
     "typescriptDiscipline": {
       "typescript/no-explicit-any": "error",
@@ -142,6 +146,7 @@
       "typescript/use-unknown-in-catch-callback-variable": "error"
     },
     "effect": {
+      "anti-slop-effect/no-service-constructor-imports": "error",
       "anti-slop/no-chained-type-assertions": "error",
       "anti-slop/no-conditional-empty-object-spread": "error",
       "anti-slop/no-known-value-widening": "error",
@@ -231,6 +236,7 @@
       "typescript/use-unknown-in-catch-callback-variable": "error"
     },
     "effect-web": {
+      "anti-slop-effect/no-service-constructor-imports": "error",
       "anti-slop/no-chained-type-assertions": "error",
       "anti-slop/no-conditional-empty-object-spread": "error",
       "anti-slop/no-known-value-widening": "error",
@@ -325,6 +331,7 @@
       "typescript/use-unknown-in-catch-callback-variable": "error"
     },
     "full": {
+      "anti-slop-effect/no-service-constructor-imports": "error",
       "anti-slop/no-chained-type-assertions": "error",
       "anti-slop/no-conditional-empty-object-spread": "error",
       "anti-slop/no-known-value-widening": "error",

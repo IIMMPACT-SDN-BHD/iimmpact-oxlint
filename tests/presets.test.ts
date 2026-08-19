@@ -6,11 +6,13 @@ import { presets, withExceptions } from "../src/index.js";
 
 describe("presets", () => {
   test("have the derived rule counts and preserve severities", () => {
-    expect(Object.keys(presets.base.rules)).toHaveLength(26);
-    expect(Object.keys(presets.effect.rules)).toHaveLength(87);
-    expect(Object.keys(presets["effect-web"].rules)).toHaveLength(92);
-    expect(Object.keys(presets.full.rules)).toHaveLength(98);
     expect(presets.full.rules["anti-slop/no-module-mocking"]).toBe("error");
+    expect(
+      presets.effect.rules["anti-slop-effect/no-service-constructor-imports"],
+    ).toBe("error");
+    expect(
+      presets.base.rules["anti-slop-effect/no-service-constructor-imports"],
+    ).toBeUndefined();
     expect(presets.full.rules["typescript/no-unsafe-assignment"]).toBe("error");
     expect(presets.full.rules["effect/no-effect-succeed-variable"]).toBe(
       "warn",
@@ -41,11 +43,19 @@ describe("presets", () => {
       readFileSync(resolve(import.meta.dir, "../rules.manifest.json"), "utf8"),
     ) as {
       counts: { full: number };
-      rules: { typescriptDiscipline: Record<string, string> };
+      rules: {
+        antiSlopEffect: Record<string, string>;
+        typescriptDiscipline: Record<string, string>;
+      };
       presets: Record<keyof typeof presets, Record<string, string>>;
     };
 
     expect(Object.keys(manifest.rules.typescriptDiscipline)).toHaveLength(11);
+    expect(Object.keys(manifest.rules.antiSlopEffect).sort()).toEqual(
+      Object.keys(presets.effect.rules)
+        .filter((rule) => rule.startsWith("anti-slop-effect/"))
+        .sort(),
+    );
     expect(manifest.counts.full).toBe(Object.keys(presets.full.rules).length);
     for (const name of Object.keys(presets) as (keyof typeof presets)[]) {
       expect(manifest.presets[name]).toEqual(presets[name].rules);

@@ -1,6 +1,6 @@
 const tests = [
   ...(await Array.fromAsync(
-    new Bun.Glob("vendor/anti-slop/src/rules/*.test.ts").scan({
+    new Bun.Glob("vendor/anti-slop/src/**/*.test.ts").scan({
       cwd: import.meta.dir + "/..",
       absolute: true,
     }),
@@ -28,4 +28,4 @@ for (const test of tests) {
   if (result.exitCode !== 0) process.exit(result.exitCode);
 }
 
-console.log(`Passed ${tests.length} anti-slop rule test files`);
+console.log(`Passed ${tests.length} vendored anti-slop test files`);
