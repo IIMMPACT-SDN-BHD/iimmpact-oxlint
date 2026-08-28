@@ -35,6 +35,7 @@ export const typescriptDisciplineRules = {
   "typescript/no-unsafe-return": "error",
   "typescript/no-unsafe-type-assertion": "error",
   "typescript/switch-exhaustiveness-check": "error",
+  "typescript/unbound-method": "error",
   "typescript/use-unknown-in-catch-callback-variable": "error",
 } as const satisfies Readonly<Record<string, RuleSeverity>>;
 
@@ -42,6 +43,7 @@ export const effectCoreRules = {
   "effect/no-arrow-ladder": "error",
   "effect/no-branch-in-object": "error",
   "effect/no-call-tower": "error",
+  "effect/no-cause-dropping-recovery": "error",
   "effect/no-effect-all-step-sequencing": "error",
   "effect/no-effect-as": "error",
   "effect/no-effect-bind": "error",
@@ -116,6 +118,7 @@ export const effectFullRules = {
   "effect/no-atom-registry-effect-sync": "error",
   "effect/no-branch-in-object": "error",
   "effect/no-call-tower": "error",
+  "effect/no-cause-dropping-recovery": "error",
   "effect/no-effect-all-step-sequencing": "error",
   "effect/no-effect-as": "error",
   "effect/no-effect-bind": "error",

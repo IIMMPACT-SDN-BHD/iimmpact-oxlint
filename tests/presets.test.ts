@@ -14,6 +14,13 @@ describe("presets", () => {
       presets.base.rules["anti-slop-effect/no-service-constructor-imports"],
     ).toBeUndefined();
     expect(presets.full.rules["typescript/no-unsafe-assignment"]).toBe("error");
+    expect(presets.base.rules["typescript/unbound-method"]).toBe("error");
+    expect(presets.effect.rules["effect/no-cause-dropping-recovery"]).toBe(
+      "error",
+    );
+    expect(
+      presets.base.rules["effect/no-cause-dropping-recovery"],
+    ).toBeUndefined();
     expect(presets.full.rules["effect/no-effect-succeed-variable"]).toBe(
       "warn",
     );
@@ -50,7 +57,7 @@ describe("presets", () => {
       presets: Record<keyof typeof presets, Record<string, string>>;
     };
 
-    expect(Object.keys(manifest.rules.typescriptDiscipline)).toHaveLength(11);
+    expect(Object.keys(manifest.rules.typescriptDiscipline)).toHaveLength(12);
     expect(Object.keys(manifest.rules.antiSlopEffect).sort()).toEqual(
       Object.keys(presets.effect.rules)
         .filter((rule) => rule.startsWith("anti-slop-effect/"))

@@ -6,6 +6,7 @@ const tests = [
     }),
   )),
   import.meta.dir + "/../tests/anti-slop-missing-upstream.test.ts",
+  import.meta.dir + "/../tests/effect-no-cause-dropping-recovery.test.ts",
 ].sort();
 
 const nodeVersion = Bun.spawnSync(["node", "-p", "process.versions.node"], {

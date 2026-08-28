@@ -3,9 +3,9 @@
   "counts": {
     "antiSlop": 15,
     "antiSlopEffect": 1,
-    "typescriptDiscipline": 11,
-    "effect": 72,
-    "full": 99
+    "typescriptDiscipline": 12,
+    "effect": 73,
+    "full": 101
   },
   "rules": {
     "antiSlop": {
@@ -39,6 +39,7 @@
       "typescript/no-unsafe-return": "error",
       "typescript/no-unsafe-type-assertion": "error",
       "typescript/switch-exhaustiveness-check": "error",
+      "typescript/unbound-method": "error",
       "typescript/use-unknown-in-catch-callback-variable": "error"
     },
     "effect": {
@@ -46,6 +47,7 @@
       "effect/no-atom-registry-effect-sync": "error",
       "effect/no-branch-in-object": "error",
       "effect/no-call-tower": "error",
+      "effect/no-cause-dropping-recovery": "error",
       "effect/no-effect-all-step-sequencing": "error",
       "effect/no-effect-as": "error",
       "effect/no-effect-bind": "error",
@@ -143,6 +145,7 @@
       "typescript/no-unsafe-return": "error",
       "typescript/no-unsafe-type-assertion": "error",
       "typescript/switch-exhaustiveness-check": "error",
+      "typescript/unbound-method": "error",
       "typescript/use-unknown-in-catch-callback-variable": "error"
     },
     "effect": {
@@ -165,6 +168,7 @@
       "effect/no-arrow-ladder": "error",
       "effect/no-branch-in-object": "error",
       "effect/no-call-tower": "error",
+      "effect/no-cause-dropping-recovery": "error",
       "effect/no-effect-all-step-sequencing": "error",
       "effect/no-effect-as": "error",
       "effect/no-effect-bind": "error",
@@ -233,6 +237,7 @@
       "typescript/no-unsafe-return": "error",
       "typescript/no-unsafe-type-assertion": "error",
       "typescript/switch-exhaustiveness-check": "error",
+      "typescript/unbound-method": "error",
       "typescript/use-unknown-in-catch-callback-variable": "error"
     },
     "effect-web": {
@@ -256,6 +261,7 @@
       "effect/no-atom-registry-effect-sync": "error",
       "effect/no-branch-in-object": "error",
       "effect/no-call-tower": "error",
+      "effect/no-cause-dropping-recovery": "error",
       "effect/no-effect-all-step-sequencing": "error",
       "effect/no-effect-as": "error",
       "effect/no-effect-bind": "error",
@@ -328,6 +334,7 @@
       "typescript/no-unsafe-return": "error",
       "typescript/no-unsafe-type-assertion": "error",
       "typescript/switch-exhaustiveness-check": "error",
+      "typescript/unbound-method": "error",
       "typescript/use-unknown-in-catch-callback-variable": "error"
     },
     "full": {
@@ -351,6 +358,7 @@
       "effect/no-atom-registry-effect-sync": "error",
       "effect/no-branch-in-object": "error",
       "effect/no-call-tower": "error",
+      "effect/no-cause-dropping-recovery": "error",
       "effect/no-effect-all-step-sequencing": "error",
       "effect/no-effect-as": "error",
       "effect/no-effect-bind": "error",
@@ -429,6 +437,7 @@
       "typescript/no-unsafe-return": "error",
       "typescript/no-unsafe-type-assertion": "error",
       "typescript/switch-exhaustiveness-check": "error",
+      "typescript/unbound-method": "error",
       "typescript/use-unknown-in-catch-callback-variable": "error"
     }
   }

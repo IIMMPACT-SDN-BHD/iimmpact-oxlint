@@ -55,8 +55,10 @@ const typescriptDiscipline = qualify("typescript", [
   "no-unsafe-return",
   "no-unsafe-type-assertion",
   "switch-exhaustiveness-check",
+  "unbound-method",
   "use-unknown-in-catch-callback-variable",
 ]);
+const customEffect = qualify("effect", ["no-cause-dropping-recovery"]);
 const core = await readConfig("core");
 const webConfig = await readConfig("web");
 const tsType = await readConfig("ts-type");
@@ -98,12 +100,15 @@ assert(
   "Upstream plugin rule namespaces must not overlap",
 );
 const curatedRuleCount =
-  upstreamRuleCount + Object.keys(typescriptDiscipline).length;
+  upstreamRuleCount +
+  Object.keys(typescriptDiscipline).length +
+  Object.keys(customEffect).length;
 assert(
   new Set([
     ...Object.keys(anti),
     ...Object.keys(antiEffect),
     ...Object.keys(typescriptDiscipline),
+    ...Object.keys(customEffect),
     ...Object.keys(full),
   ]).size === curatedRuleCount,
   "Full curated preset must contain every unique rule",
@@ -135,9 +140,9 @@ const values = {
   antiSlopRules: sorted(anti),
   antiSlopEffectRules: sorted(antiEffect),
   typescriptDisciplineRules: sorted(typescriptDiscipline),
-  effectCoreRules: sorted(core),
+  effectCoreRules: sorted({ ...core, ...customEffect }),
   effectWebRules: sorted(webConfig),
-  effectFullRules: sorted(full),
+  effectFullRules: sorted({ ...full, ...customEffect }),
 };
 const presetValues = {
   base: sorted({ ...anti, ...typescriptDiscipline }),
@@ -146,6 +151,7 @@ const presetValues = {
     ...antiEffect,
     ...typescriptDiscipline,
     ...core,
+    ...customEffect,
   }),
   "effect-web": sorted({
     ...anti,
@@ -153,8 +159,15 @@ const presetValues = {
     ...typescriptDiscipline,
     ...core,
     ...webConfig,
+    ...customEffect,
   }),
-  full: sorted({ ...anti, ...antiEffect, ...typescriptDiscipline, ...full }),
+  full: sorted({
+    ...anti,
+    ...antiEffect,
+    ...typescriptDiscipline,
+    ...full,
+    ...customEffect,
+  }),
 };
 
 const generated = await format(
