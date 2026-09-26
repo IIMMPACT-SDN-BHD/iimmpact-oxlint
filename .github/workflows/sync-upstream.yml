@@ -13,7 +13,7 @@ jobs:
   prepare:
     outputs:
       has-changes: ${{ steps.patch.outputs.has-changes }}
-    runs-on: ubuntu-latest
+    runs-on: ubicloud-standard-2
     permissions:
       contents: read
     steps:
@@ -63,7 +63,7 @@ jobs:
   propose:
     needs: prepare
     if: needs.prepare.outputs.has-changes == 'true'
-    runs-on: ubuntu-latest
+    runs-on: ubicloud-standard-2
     permissions:
       actions: write
       contents: write
