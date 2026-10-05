@@ -3,9 +3,9 @@
   "counts": {
     "antiSlop": 15,
     "antiSlopEffect": 1,
-    "typescriptDiscipline": 12,
+    "typescriptDiscipline": 15,
     "effect": 73,
-    "full": 101
+    "full": 104
   },
   "rules": {
     "antiSlop": {
@@ -29,7 +29,15 @@
       "anti-slop-effect/no-service-constructor-imports": "error"
     },
     "typescriptDiscipline": {
+      "typescript/await-thenable": "error",
       "typescript/no-explicit-any": "error",
+      "typescript/no-floating-promises": [
+        "error",
+        {
+          "ignoreVoid": false
+        }
+      ],
+      "typescript/no-misused-promises": "error",
       "typescript/no-non-null-assertion": "error",
       "typescript/no-unnecessary-type-assertion": "error",
       "typescript/no-unsafe-argument": "error",
@@ -135,7 +143,15 @@
       "anti-slop/no-unsafe-dictionary-type": "error",
       "anti-slop/no-widen-then-assert": "error",
       "anti-slop/require-safety-comment-for-type-assertion": "error",
+      "typescript/await-thenable": "error",
       "typescript/no-explicit-any": "error",
+      "typescript/no-floating-promises": [
+        "error",
+        {
+          "ignoreVoid": false
+        }
+      ],
+      "typescript/no-misused-promises": "error",
       "typescript/no-non-null-assertion": "error",
       "typescript/no-unnecessary-type-assertion": "error",
       "typescript/no-unsafe-argument": "error",
@@ -227,7 +243,15 @@
       "effect/prevent-dynamic-imports": "error",
       "effect/require-return-yield-effect-terminal": "error",
       "effect/warn-effect-sync-wrapper": "warn",
+      "typescript/await-thenable": "error",
       "typescript/no-explicit-any": "error",
+      "typescript/no-floating-promises": [
+        "error",
+        {
+          "ignoreVoid": false
+        }
+      ],
+      "typescript/no-misused-promises": "error",
       "typescript/no-non-null-assertion": "error",
       "typescript/no-unnecessary-type-assertion": "error",
       "typescript/no-unsafe-argument": "error",
@@ -324,7 +348,15 @@
       "effect/prevent-dynamic-imports": "error",
       "effect/require-return-yield-effect-terminal": "error",
       "effect/warn-effect-sync-wrapper": "warn",
+      "typescript/await-thenable": "error",
       "typescript/no-explicit-any": "error",
+      "typescript/no-floating-promises": [
+        "error",
+        {
+          "ignoreVoid": false
+        }
+      ],
+      "typescript/no-misused-promises": "error",
       "typescript/no-non-null-assertion": "error",
       "typescript/no-unnecessary-type-assertion": "error",
       "typescript/no-unsafe-argument": "error",
@@ -427,7 +459,15 @@
       "effect/prevent-dynamic-imports": "error",
       "effect/require-return-yield-effect-terminal": "error",
       "effect/warn-effect-sync-wrapper": "warn",
+      "typescript/await-thenable": "error",
       "typescript/no-explicit-any": "error",
+      "typescript/no-floating-promises": [
+        "error",
+        {
+          "ignoreVoid": false
+        }
+      ],
+      "typescript/no-misused-promises": "error",
       "typescript/no-non-null-assertion": "error",
       "typescript/no-unnecessary-type-assertion": "error",
       "typescript/no-unsafe-argument": "error",

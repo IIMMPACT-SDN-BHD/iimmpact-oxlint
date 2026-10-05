@@ -1,4 +1,4 @@
-import type { RuleSeverity } from "./generated/manifests.js";
+import type { RuleConfig, RuleSeverity } from "./generated/manifests.js";
 
 export type RuleSetting =
   | RuleSeverity
@@ -12,7 +12,7 @@ export interface ScopedException {
 
 export interface OxlintConfig {
   jsPlugins: readonly { name: string; specifier: string }[];
-  rules: Readonly<Record<string, RuleSeverity>>;
+  rules: Readonly<Record<string, RuleConfig>>;
   options?: Readonly<{
     typeAware?: boolean;
   }>;

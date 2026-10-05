@@ -42,6 +42,9 @@ describe("CLI", () => {
     expect(result.stdout.toString()).toContain(
       "error typescript/no-unsafe-assignment",
     );
+    expect(result.stdout.toString()).toContain(
+      'error typescript/no-floating-promises {"ignoreVoid":false}',
+    );
     expect(result.stdout.toString()).toContain("rules (base)");
   });
 
