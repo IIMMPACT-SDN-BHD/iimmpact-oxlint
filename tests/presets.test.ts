@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
-import { presets, withExceptions } from "../src/index.js";
+import { presets, withExceptions, type RuleConfig } from "../src/index.js";
 
 describe("presets", () => {
   test("have the derived rule counts and preserve severities", () => {
@@ -52,12 +52,12 @@ describe("presets", () => {
       counts: { full: number };
       rules: {
         antiSlopEffect: Record<string, string>;
-        typescriptDiscipline: Record<string, string>;
+        typescriptDiscipline: Record<string, RuleConfig>;
       };
-      presets: Record<keyof typeof presets, Record<string, string>>;
+      presets: Record<keyof typeof presets, Record<string, RuleConfig>>;
     };
 
-    expect(Object.keys(manifest.rules.typescriptDiscipline)).toHaveLength(12);
+    expect(Object.keys(manifest.rules.typescriptDiscipline)).toHaveLength(15);
     expect(Object.keys(manifest.rules.antiSlopEffect).sort()).toEqual(
       Object.keys(presets.effect.rules)
         .filter((rule) => rule.startsWith("anti-slop-effect/"))

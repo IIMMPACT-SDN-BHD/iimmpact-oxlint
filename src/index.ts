@@ -5,7 +5,7 @@ import {
   effectFullRules,
   effectWebRules,
   typescriptDisciplineRules,
-  type RuleSeverity,
+  type RuleConfig,
 } from "./generated/manifests.js";
 import type { OxlintConfig } from "./exceptions.js";
 
@@ -15,7 +15,7 @@ export type {
   RuleSetting,
   ScopedException,
 } from "./exceptions.js";
-export type { RuleSeverity } from "./generated/manifests.js";
+export type { RuleConfig, RuleSeverity } from "./generated/manifests.js";
 
 export type PresetName = "base" | "effect" | "effect-web" | "full";
 
@@ -32,9 +32,9 @@ const plugins = {
 } as const;
 
 function mergeRules(
-  ...sets: ReadonlyArray<Readonly<Record<string, RuleSeverity>>>
+  ...sets: ReadonlyArray<Readonly<Record<string, RuleConfig>>>
 ) {
-  return Object.assign({}, ...sets) as Readonly<Record<string, RuleSeverity>>;
+  return Object.assign({}, ...sets) as Readonly<Record<string, RuleConfig>>;
 }
 
 export const presets = {

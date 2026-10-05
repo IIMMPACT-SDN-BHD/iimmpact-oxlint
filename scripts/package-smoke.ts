@@ -24,7 +24,7 @@ function run(command: string[], cwd: string): string {
   });
   if (result.exitCode !== 0)
     throw new Error(
-      `${command.join(" ")} failed:\n${result.stderr.toString()}`,
+      `${command.join(" ")} failed:\n${result.stdout.toString()}${result.stderr.toString()}`,
     );
   return result.stdout.toString();
 }
@@ -140,6 +140,64 @@ try {
     ],
     consumer,
   );
+  await writeFile(
+    resolve(consumer, "tsconfig.json"),
+    JSON.stringify({ compilerOptions: { strict: true, target: "ES2022" } }),
+  );
+  const promiseCases = [
+    ["unhandled", 'Promise.reject(new Error("boom"));', "no-floating-promises"],
+    [
+      "voided",
+      'void Promise.reject(new Error("boom"));',
+      "no-floating-promises",
+    ],
+    [
+      "async-callback",
+      "[1].forEach(async (value) => { await Promise.resolve(value); });",
+      "no-misused-promises",
+    ],
+    [
+      "non-thenable",
+      "export async function run() { return await 42; }",
+      "await-thenable",
+    ],
+    [
+      "awaited",
+      "export async function run() { return await Promise.resolve(42); }",
+      undefined,
+    ],
+    [
+      "caught",
+      'declare function recordFailure(): void;\nvoid Promise.reject(new Error("boom")).catch(() => { recordFailure(); });',
+      undefined,
+    ],
+    [
+      "framework-owned",
+      "declare function register(handler: () => Promise<void>): void;\nregister(async () => { await Promise.resolve(); });",
+      undefined,
+    ],
+  ] as const;
+  for (const [name, source, rule] of promiseCases) {
+    const file = `promise-${name}.ts`;
+    await writeFile(resolve(consumer, file), `${source}\n`);
+    const result = Bun.spawnSync(
+      [
+        resolve(consumer, "node_modules/.bin/iimmpact-oxlint"),
+        "check",
+        file,
+        "--preset=base",
+      ],
+      { cwd: consumer, stdout: "pipe", stderr: "pipe" },
+    );
+    const output = `${result.stdout.toString()}${result.stderr.toString()}`;
+    const passed = rule
+      ? result.exitCode === 1 && output.includes(`typescript(${rule})`)
+      : result.exitCode === 0;
+    if (!passed)
+      throw new Error(
+        `Promise case ${name}: expected ${rule ? `exit 1 with ${rule}` : "exit 0"}, got exit ${result.exitCode}\n${output}`,
+      );
+  }
   console.log("Packed tarball imports and CLI smoke test passed");
 } finally {
   await rm(temporaryDirectory, { recursive: true, force: true });

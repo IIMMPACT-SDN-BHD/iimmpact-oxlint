@@ -147,8 +147,13 @@ function listRules(name: PresetName): void {
   const entries = Object.entries(getPreset(name).rules).sort(
     ([left], [right]) => left.localeCompare(right),
   );
-  for (const [rule, severity] of entries)
-    console.log(`${severity.padEnd(5)} ${rule}`);
+  for (const [rule, setting] of entries) {
+    const [severity, options] =
+      typeof setting === "string" ? [setting] : setting;
+    console.log(
+      `${severity.padEnd(5)} ${rule}${options ? ` ${JSON.stringify(options)}` : ""}`,
+    );
+  }
   console.log(`\n${entries.length} rules (${name})`);
 }
 
