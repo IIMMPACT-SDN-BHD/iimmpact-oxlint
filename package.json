@@ -50,7 +50,7 @@
     "format": "bunx prettier --check .",
     "format:fix": "bunx prettier --write .",
     "lint": "oxlint src scripts tests",
-    "typecheck": "bunx tsc --noEmit",
+    "typecheck": "bun check --no-script",
     "test": "bun test tests/cli.test.ts tests/presets.test.ts tests/upstream-plugin-groups.test.ts && bun scripts/run-vendored-tests.ts",
     "test:package": "bun scripts/package-smoke.ts",
     "check": "bun run format && bun run lint && bun run typecheck && bun run test && bun run manifest:check && bun run build && bun run test:package",

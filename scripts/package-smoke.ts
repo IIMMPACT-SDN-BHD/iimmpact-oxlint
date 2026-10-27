@@ -82,10 +82,7 @@ try {
     resolve(consumer, "tsconfig.json"),
     '{"compilerOptions":{"strict":true,"noEmit":true,"target":"ES2022","module":"NodeNext","moduleResolution":"NodeNext","skipLibCheck":false},"include":["consumer.ts"]}\n',
   );
-  run(
-    [resolve(root, "node_modules/.bin/tsc"), "-p", "tsconfig.json"],
-    consumer,
-  );
+  run(["bun", "check"], consumer);
   run(
     [
       "node",
